@@ -1,17 +1,25 @@
 document.addEventListener('DOMContentLoaded', event => {
 
-    const post = document.getElementById('editor');
+    const runBtn = document.getElementById('run-btn');
     const footer = document.getElementById('footerPen');
+    const codeResultContainer = document.getElementById('code-result');
 
-    footer.addEventListener('click', async e => {
-        console.log('>>>>>>>>>>>>>>>>>>>>>>')
-        console.log(eval(editor.getValue()));
+    runBtn.addEventListener('click', e => {
+        console.log = function(e) {codeResultContainer.innerHTML = e};
+        eval(editor.getValue());
     });
+
+
+
+
+
+
+
 
     // editor.getSession().on('change', function(e) {
     //     console.log(editor.commands.commands.findAll);
     // });
-
+    //
     // const articles = document.querySelectorAll('article');
     //
     // post.addEventListener('submit', async e => {
