@@ -1,19 +1,25 @@
 document.addEventListener('DOMContentLoaded', event => {
 
     const runBtn = document.getElementById('run-btn');
-    const footer = document.getElementById('footerPen');
-    const codeResultContainer = document.getElementById('code-result');
+    const codeResultContainer = document.getElementById('code-output');
+    const codeResultErr = document.getElementById('code-output');
 
     runBtn.addEventListener('click', e => {
-        console.log = function(e) {codeResultContainer.innerHTML = e};
-        eval(editor.getValue());
+        codeResultContainer.innerText = '';
+        console['log'] = function (e) {
+            codeResultErr.style.color = 'white';
+            codeResultContainer.innerText += `${e}\n`
+        };
+        console['error'] = function (e) {
+            codeResultErr.style.color = 'red';
+            codeResultErr.innerText += `${e}\n`
+        };
+        try {
+            eval(editor.getValue());
+        } catch (err) {
+            console.error(err);
+        }
     });
-
-
-
-
-
-
 
 
     // editor.getSession().on('change', function(e) {
