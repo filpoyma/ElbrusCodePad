@@ -23,13 +23,17 @@ router.route('/signup')
             res.render('auth/signup.hbs');
     })
     .post(async (req, res) => {
-        const {username, email, password} = req.body;
+        const {name, email, password} = req.body;
         try {
             const user = new User({
-                username: username,
+                username: name,
                 email: email,
                 password: password
             });
+            const newUser = await User.findOne({ name: req.body.name});
+            if(newUser) return res.render('auth/signup', {regerror: `nick name ${req.body.name} is exist. type another name. `});
+            if(email === '') return res.render('auth/signup', {regerror: 'email cant be blanc. '});
+            if(password.length < 4) return res.render('auth/signup', {regerror: 'password too short. minimum - 4 '});
             await user.save();
             req.session.user = user;
             res.redirect('/entries');
