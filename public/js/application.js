@@ -1,17 +1,31 @@
 document.addEventListener('DOMContentLoaded', event => {
 
-    const post = document.getElementById('editor');
-    const footer = document.getElementById('footerPen');
+    const runBtn = document.getElementById('run-btn');
+    const codeResultContainer = document.getElementById('code-output');
+    const codeResultErr = document.getElementById('code-output');
 
-    footer.addEventListener('click', async e => {
-        console.log('>>>>>>>>>>>>>>>>>>>>>>')
-        console.log(eval(editor.getValue()));
+    runBtn.addEventListener('click', e => {
+        codeResultContainer.innerText = '';
+        console['log'] = function (e) {
+            codeResultErr.style.color = 'white';
+            codeResultContainer.innerText += `${e}\n`
+        };
+        console['error'] = function (e) {
+            codeResultErr.style.color = 'red';
+            codeResultErr.innerText += `${e}\n`
+        };
+        try {
+            eval(editor.getValue());
+        } catch (err) {
+            console.error(err);
+        }
     });
+
 
     // editor.getSession().on('change', function(e) {
     //     console.log(editor.commands.commands.findAll);
     // });
-
+    //
     // const articles = document.querySelectorAll('article');
     //
     // post.addEventListener('submit', async e => {
