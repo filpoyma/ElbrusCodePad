@@ -18,6 +18,8 @@ editor.setValue(SOURCECODE);
 editor.setOptions({
     fontSize: "22px",
     printMargin: false,
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
+    enableLiveAutocompletion: true
 
 });
-

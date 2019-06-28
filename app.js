@@ -19,7 +19,7 @@ const app = express();
 
 // Подключаем mongoose.
 const mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost:27017/elbruscodepad', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://rom:oaAm2a22@cluster0-woi64.mongodb.net/elbruscodepad', { useNewUrlParser: true });
 
 app.use(express.static(path.join(__dirname, 'public')));
 
