@@ -5,10 +5,7 @@ console.log('Hello, Elbrus');
 sayHello();
 
 /*
-Your previous Plain Text content is preserved below:
-
-This is just a simple shared plaintext pad, with no 
-execution capabilities.
+It always seems impossible until it's done...
 
 Enjoy your interview!
 1+1
