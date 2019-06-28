@@ -29,15 +29,15 @@ router.route('/signup')
             });
             // const newUser = await User.findOne({ name: req.body.name});
             // if(newUser) return res.render('auth/signup', {regerror: `nick name ${req.body.name} is exist. type another name. `});
-            const dbUser = await User.find({name: name});
-
+            const dbUser = await User.findOne({name: name});
+console.log('>>>>>>>>>>>>', dbUser.name , name);
             if(dbUser.name != name) await user.save();
             req.session.user = user;
             console.log('ok');
             res.redirect('/interview');
         }
         catch (error) {
-            console.log('error')
+            console.log('error');
             res.redirect('/signup');
         };
     });
@@ -70,6 +70,9 @@ router.get('/logout', async (req, res, next) => {
     if (req.session.user && req.cookies.user_sid) {
         try {
             await req.session.destroy();
+            await User.find( { name: { $ne: "admin" } } ).deleteMany().exec();
+            //await User.drop();
+            //console.log(delUser);
             res.redirect('/');
         }
         catch (error) {
