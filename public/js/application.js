@@ -3,15 +3,12 @@ document.addEventListener('DOMContentLoaded', event => {
     const runBtn = document.getElementById('run-btn');
     const codeResultContainer = document.getElementById('code-output');
     const inviteBtn = document.getElementById('inviteBtn');
-
-
-
     const inviteLinkField = document.getElementById('invite-link');
-
     const inviteAndCopyToCpbBtn = document.getElementById('copy-to-clpb');
 
-    if (inviteBtn.classList[2] === 'disabled') inviteLinkField.value = 'you cant create invite link';
-    else inviteLinkField.value = window.location.href + '/Crud123';
+    //if (inviteBtn.classList[2] === 'disabled') inviteLinkField.value = 'you cant create invite link';
+    const rndSymbs = Math.random().toString(36).substring(7);
+     inviteLinkField.value = window.location.href + '/' + rndSymbs;
 
     runBtn.addEventListener('click', e => {
         codeResultContainer.innerText = '';
