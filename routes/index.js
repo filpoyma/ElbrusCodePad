@@ -6,13 +6,10 @@ const User = require('../models/users');
 const router = express.Router();
 
 
-// router.get('/', sessionChecker, (req, res) => {
-//     res.redirect('/entries');
-// });
-
-router.get('/', (req, res) => {
-    res.redirect('/entries');
+router.get( '/', sessionChecker, (req, res) => {
+    res.redirect('/interview');
 });
+
 
 // route for user signup
 router.route('/signup')
@@ -20,38 +17,41 @@ router.route('/signup')
         if (req.session.user)
             res.redirect('/entries');
         else
-            res.render('auth/signup.hbs');
+            res.render('auth/login.hbs');
     })
     .post(async (req, res) => {
-        const {name, email, password} = req.body;
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+        const {name, password} = req.body;
         try {
             const user = new User({
-                username: name,
-                email: email,
+                name: name,
                 password: password
             });
-            const newUser = await User.findOne({ name: req.body.name});
-            if(newUser) return res.render('auth/signup', {regerror: `nick name ${req.body.name} is exist. type another name. `});
-            if(email === '') return res.render('auth/signup', {regerror: 'email cant be blanc. '});
-            if(password.length < 4) return res.render('auth/signup', {regerror: 'password too short. minimum - 4 '});
-            await user.save();
+            // const newUser = await User.findOne({ name: req.body.name});
+            // if(newUser) return res.render('auth/signup', {regerror: `nick name ${req.body.name} is exist. type another name. `});
+            const dbUser = await User.findOne({name: name});
+console.log('>>>>>>>>>>>>', dbUser.name , name);
+            if(dbUser.name != name) await user.save();
             req.session.user = user;
-            res.redirect('/entries');
+            console.log('ok');
+            res.redirect('/interview');
         }
         catch (error) {
+            console.log('error');
             res.redirect('/signup');
         };
     });
 
 
 // route for user Login
-router.route('/login')
+router.route('/login/:id')
     .get(sessionChecker, (req, res) => {
-        res.redirect('/entries');
+
+        res.redirect('/interview');
     })
     .post(async (req, res) => {
-        const { username, password } = req.body;
-        const user = await User.findOne({ username });
+        const { name, password } = req.body;
+        const user = await User.findOne({ name });
         if (!user) {
             res.redirect('/login');
             console.log('**********wrong user')
@@ -69,8 +69,10 @@ router.route('/login')
 router.get('/logout', async (req, res, next) => {
     if (req.session.user && req.cookies.user_sid) {
         try {
-            // res.clearCookie('user_sid');
             await req.session.destroy();
+            await User.find( { name: { $ne: "admin" } } ).deleteMany().exec();
+            //await User.drop();
+            //console.log(delUser);
             res.redirect('/');
         }
         catch (error) {

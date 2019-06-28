@@ -1,0 +1,10 @@
+#editor {
+    /*position: absolute;*/
+    top: 20px;
+    /*right: 50px;*/
+    bottom: 0;
+    left: 8px;
+    width: 99%;
+    height: 80vh;
+    background-color: #222222;
+}
