@@ -4,9 +4,9 @@ const morgan = require("morgan");
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const redis   = require("redis");
-const RedisStore = require('connect-redis')(session);
-const client  = redis.createClient();
+// const redis   = require("redis");
+// const RedisStore = require('connect-redis')(session);
+// const client  = redis.createClient();
 const {cookiesCleaner} = require('./middleware/auth');
 const logger = require('morgan');
 const methodOverride = require('method-override')
@@ -34,20 +34,29 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(session({
-    store: new RedisStore({
-        client,
-        host: 'localhost',
-        port: 6379,
-        ttl :  2600
-    }),
-    key: 'user_sid',
-    secret: 'anything here',
+    secret: 'keyboard cat',
     resave: false,
+    key: 'user_sid',
     saveUninitialized: false,
     cookie: {
         expires: 6000000
     }
 }));
+// app.use(session({
+//     store: new RedisStore({
+//         client,
+//         host: 'localhost',
+//         port: 6379,
+//         ttl :  2600
+//     }),
+//     key: 'user_sid',
+//     secret: 'anything here',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         expires: 6000000
+//     }
+// }));
 
 app.use(cookiesCleaner);
 
