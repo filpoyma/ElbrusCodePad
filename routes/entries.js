@@ -19,8 +19,11 @@ router.route('/')
 
 router.route('/:id')
     .get( async function (req, res, next) {
+
         let isLinkExist = await Link.findOne({link: req.params.id});
+        console.log(req.params.id, isLinkExist);
         if (isLinkExist) res.redirect('/');
+        else res.redirect('/');
     })
     .post(async  function ( req, res, next) {
         const { link } = req.body;

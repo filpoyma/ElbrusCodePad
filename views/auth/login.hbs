@@ -1,39 +1,150 @@
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6 mx-auto">
 
-                    <!-- form card login -->
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Enter your name to join</h5>
+<!-- Modal -->
+<a data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#"></a>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enter your name to join</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/signup">
+                    <div class="form-group  mx-sm-3 mb-2">
+
+                        <div class="input-group">
+                            <input type="text" class="form-control mb-2" name="name"  placeholder="Your Name must be here">
+                            <button type="submit" class="btn btn-success mb-2" id="copy-to-clpb">GO!</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script defer type="text/javascript">
+    $(window).on('load', function () {
+        $('#exampleModalCenter').modal('show');
+    });
+    $('#exampleModalCenter').on('hide.bs.modal', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    });
+    $('copy-to-clpb').on('click', function () {
+        $('#exampleModalCenter').modal('show');
+    });
+</script>
+<div class="container-fluid mt-2">
+    <ul class="nav nav-tabs justify-content-end">
+
+        <li class="nav-item mr-md-auto">
+            <button id="run-btn" class="btn btn-success navbar-btn mb-2">Run ></button>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#code-result">Result</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#profile">Messenger</a>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="editor">
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js" type="text/javascript"
+                    charset="utf-8"></script>
+            <script src="/js/editorSettings.js"></script>
+        </div>
+        <div class="col-md-6 border-left border-dark">
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active show" id="code-result">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div id="code-output" class="col-md-12 m-3">
+                                <p>Code Result</p>
                             </div>
-                            <div class="modal-body">
-                                <form method="POST" action="/signup">
-                                    <div class="form-group">
-                                        <label for="invite-link" class="col-form-label">Name:</label>
-                                        <input type="text" class="form-control" name="name" id="invite-link">
-                                    </div>
-                                    <!--<div class="form-group">-->
-                                    <!--<label for="message-text" class="col-form-label">Message:</label>-->
-                                    <!--<textarea class="form-control" id="message-text"></textarea>-->
-                                    <!--</div>-->
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-success" id="copy-to-clpb">GO!</button>
-                                    </div>
-                                </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="profile">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div id="message-output" class="col-md-12 m-3">
+                                <p>Text Message</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--/row-->
         </div>
-        <!--/col-->
     </div>
-    <!--/row-->
 </div>
-<!--/container-->
 
+<main>
+</main>
+
+
+<nav class="navbar fixed-bottom navbar-expand-sm">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content"
+            aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Brand -->
+    <!--<a class="navbar-brand" href="#">Logo</a>-->
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse justify-content-end" id="nav-content">
+        <ul class="navbar-nav">
+            {{#if admin}}
+                <li class="nav-item">
+                    <button id="inviteBtn" type="button" class="btn btn-outline-success" data-toggle="modal"
+                            data-target="#exampleModal" data-whatever="@mdo">Invite
+                    </button>
+                </li>
+            {{/if}}
+            {{#each users}}
+                <li class="nav-item ml-md-auto">
+                    <a class="nav-link" href="#">∘{{name}}</a>
+                </li>
+            {{/each}}
+            <li class="nav-item">
+                <a id="endInterview" class="nav-link text-danger" href="/logout">End Interview</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Invite link</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="invite-link" class="col-form-label">Link:</label>
+                        <input type="text" class="form-control" id="invite-link">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="copy-to-clpb">Invite</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/application.js"></script>
