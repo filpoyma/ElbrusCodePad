@@ -20,9 +20,11 @@ router.route('/signup')
             res.render('auth/login.hbs');
     })
     .post(async (req, res) => {
-        const currentUser =  await User.findOne({name: 'admin'});
-
+        let currentUser =  await User.findOne({name: 'admin'});
+        if(currentUser === null) currentUser = false;
         const {name} = req.body;
+        // console.log('currentUser', currentUser);
+        // console.log('session', req.session);
         try {
             const user = new User({
                 name: name,
@@ -34,7 +36,7 @@ router.route('/signup')
             res.redirect('/interview');
         }
         catch (error) {
-            console.log('<<<<error>>>>');
+            console.log('<<<<error>>>> index.js 39');
             res.redirect('/signup');
         }
     });
