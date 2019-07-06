@@ -1,26 +1,26 @@
 const createError = require('http-errors');
 const express = require('express');
-const morgan = require("morgan");
+const morgan = require('morgan');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+
 // const redis   = require("redis");
 // const RedisStore = require('connect-redis')(session);
 // const client  = redis.createClient();
-const {cookiesCleaner} = require('./middleware/auth');
+const { cookiesCleaner } = require('./middleware/auth');
 const logger = require('morgan');
-const methodOverride = require('method-override')
+const methodOverride = require('method-override');
 
 const indexRouter = require('./routes/index');
 const entriesRouter = require('./routes/entries');
-
+require('dotenv').config();
 const app = express();
 
-
 // Подключаем mongoose.
-const mongoose = require("mongoose");
-mongoose.connect('mongodb+srv://rom:oaAm2a22@cluster0-woi64.mongodb.net/elbruscodepad', { useNewUrlParser: true });
-
+const mongoose = require('mongoose');
+const urlMongo = `mongodb+srv://rom:${process.env.PASSW_DB}@cluster0-woi64.mongodb.net/elbruscodepad`;
+mongoose.connect(urlMongo, { useNewUrlParser: true });
 app.use(express.static(path.join(__dirname, 'public')));
 
 // view engine setup
@@ -28,20 +28,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    key: 'user_sid',
-    saveUninitialized: false,
-    cookie: {
-        expires: 6000000
-    }
+  secret: 'keyboard cat',
+  resave: false,
+  key: 'user_sid',
+  saveUninitialized: false,
+  cookie: {
+    expires: 6000000,
+  },
 }));
+
 // app.use(session({
 //     store: new RedisStore({
 //         client,
