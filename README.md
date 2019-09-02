@@ -1,4 +1,4 @@
-# [ElbrusCodePad](https://pip.pypa.io/en/stable/)
+# [ElbrusCodePad](https://elbrusbootcampexampad.herokuapp.com)
 ## Описание
 Веб приложение для удаленной проверки знаний по JavaScript
 ## Используемые технологии
